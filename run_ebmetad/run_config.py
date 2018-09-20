@@ -92,10 +92,10 @@ class RunConfig:
             hist_data_fnm = self.run_data.get(
                 'historical_data_filename', name=name)
             if os.path.exists(hist_data_fnm):
-                distance_counts = np.loadtxt(hist_data_fnm).tolist()
+                distance_counts = np.loadtxt(hist_data_fnm, dtype=int).tolist()
             else:
                 num_bins = len(self.run_data.get('force_table', name=name))
-                distance_counts = [0] * num_bins
+                distance_counts = [1] * num_bins
 
             self.run_data.set(name=name, distance_counts=distance_counts)
 

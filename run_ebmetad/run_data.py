@@ -181,9 +181,6 @@ class RunData:
             'force_table',
             pd.build_force_table(self.get('w', name), self.get('sigma', name)))
 
-    def clear_pair_data(self):
-        self.pair_params = {}
-
     def save_config(self, fnm='state.json'):
         json.dump(self.as_dictionary(), open(fnm, 'w'))
 

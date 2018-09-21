@@ -1,4 +1,4 @@
-from run_ebmetad.pair_data import PairData, MultiPair
+from src.run_ebmetad.pair_data import PairData, MultiPair
 import pytest
 import os
 

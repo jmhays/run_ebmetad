@@ -1,4 +1,4 @@
-from run_ebmetad.run_data import RunData
+from src.run_ebmetad.run_data import RunData
 from tests.test_pair_data import multi_pair_data, raw_pair_data
 from tests.test_pair_data import data_dir
 import pytest

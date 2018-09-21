@@ -7,7 +7,6 @@ pushd $HOME
   git branch -a
   git checkout master
   $PYTHON setup.py install
-  popd
   pushd tests
    $PYTHON -m pytest
   popd

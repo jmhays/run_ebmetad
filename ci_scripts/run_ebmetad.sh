@@ -7,6 +7,6 @@ pushd $HOME
   git branch -a
   git checkout master
   $PYTHON setup.py install
-  $PYTHON -m pytest
+  $PYTHON -m pytest --cov=./run_ebmetad
  popd
 popd

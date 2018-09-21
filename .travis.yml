@@ -71,7 +71,7 @@ before_script:
   - pip install --upgrade pip setuptools
   - pip install --upgrade packaging scikit-build
   - pip install --no-cache-dir --upgrade --no-binary ":all:" --force-reinstall networkx mpi4py MarkupSafe
-  - pip install pytest numpy networkx sphinx sphinx_rtd_theme
+  - pip install pytest pytest-cov numpy networkx sphinx sphinx_rtd_theme
 
 script:
   - source $HOME/install/gromacs_0_0_6/bin/GMXRC && ./ci_scripts/pygmx_0_0_6.sh

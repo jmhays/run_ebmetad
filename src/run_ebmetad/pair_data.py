@@ -26,7 +26,7 @@ class PairData(MetaData):
         probs = self.get('distribution')
         nbins = len(probs)
 
-        force_table = np.zeros(shape=(nbins, nbins))
+        force_table = np.zeros(shape=(nbins, nbins), dtype=np.float32)
 
         # Calculate the effective volume pre-factor
         probs = np.divide(probs, np.sum(probs))  # Normalization, just in case

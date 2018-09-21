@@ -6,9 +6,7 @@ pushd $HOME
  pushd run_ebmetad
   git branch -a
   git checkout master
-  mkdir build
-  pushd build
-    $PYTHON ../setup.py install
+  $PYTHON setup.py install
   popd
   pushd tests
    $PYTHON -m pytest

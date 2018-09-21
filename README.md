@@ -23,5 +23,5 @@ I suggest running this in a conda environment. The following conda command will 
 
     You can test by running `python -m pytest` 
 
-### Running EBMetaD
+## Running EBMetaD
 An example script is provided for ensemble simulations: `run.py`. More details coming...

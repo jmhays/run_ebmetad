@@ -63,6 +63,7 @@ install:
   - ccache -s
   - ./ci_scripts/install_gromacs_0_0_6.sh
   - if [ "${TRAVIS_BRANCH}" != "master" ] ; then ./ci_scripts/install_gromacs_devel.sh ; fi
+  - pip install codecov
 
 before_script:
   - export CCACHE_DIR=$HOME/.ccache_py
@@ -76,6 +77,12 @@ script:
   - source $HOME/install/gromacs_0_0_6/bin/GMXRC && ./ci_scripts/pygmx_0_0_6.sh
   - ./ci_scripts/sample_restraint_ebmetad.sh ebmetad
   - ./ci_scripts/run_ebmetad.sh
-  - codecov
     #  - if [ "${TRAVIS_BRANCH}" != master ] ; then source $HOME/install/gromacs_devel/bin/GMXRC && ./ci_scripts/pygmx_devel.sh ; fi
     #  - if [ "${TRAVIS_BRANCH}" != master ] ; then ./ci_scripts/sample_restraint.sh devel ; fi
+    #
+
+notifications:
+  email: false
+
+after_success:
+  - codecov

@@ -1,5 +1,5 @@
-from run_ebmetad.run_config import RunConfig
-from run_ebmetad.plugin_configs import EBMetaDPluginConfig
+from src.run_ebmetad.run_config import RunConfig
+from src.run_ebmetad.plugin_configs import EBMetaDPluginConfig
 import os
 import pytest
 from tests.test_pair_data import data_dir
@@ -22,3 +22,9 @@ def test_build_plugins(rc):
 
 def test_logger(rc):
     rc._logger.info("Testing the logger")
+
+
+def test_run(rc):
+    root_dir = os.path.abspath(os.getcwd())
+    rc.run(nsteps=10)
+    os.chdir(root_dir)

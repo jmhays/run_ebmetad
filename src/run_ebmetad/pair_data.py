@@ -3,7 +3,7 @@ Classes to handle pair metadata
 """
 
 import numpy as np
-from run_ebmetad.metadata import MetaData, MultiMetaData
+from src.run_ebmetad.metadata import MetaData, MultiMetaData
 import json
 
 

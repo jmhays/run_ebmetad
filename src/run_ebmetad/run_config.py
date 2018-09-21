@@ -1,7 +1,7 @@
-from run_ebmetad.run_data import RunData
-from run_ebmetad.pair_data import MultiPair
-from run_ebmetad.plugin_configs import EBMetaDPluginConfig
-from run_ebmetad.directory_helper import DirectoryHelper
+from src.run_ebmetad.run_data import RunData
+from src.run_ebmetad.pair_data import MultiPair
+from src.run_ebmetad.plugin_configs import EBMetaDPluginConfig
+from src.run_ebmetad.directory_helper import DirectoryHelper
 from copy import deepcopy
 import os
 import logging
@@ -116,9 +116,11 @@ class RunConfig:
         dir_help.build_working_dir()
         dir_help.change_dir('ensemble_num')
 
-    def __production(self):
-
-        md = gmx.workflow.from_tpr(self.tpr, append_output=False)
+    def __production(self, nsteps=None):
+        if nsteps:
+            md = gmx.workflow.from_tpr(self.tpr, append_output=False, nsteps=nsteps)
+        else:
+            md = gmx.workflow.from_tpr(self.tpr, append_output=False)
 
         self.build_plugins(EBMetaDPluginConfig())
         for plugin in self.__plugins:
@@ -128,7 +130,7 @@ class RunConfig:
         with context as session:
             session.run()
 
-    def run(self):
+    def run(self, nsteps=None):
         self.__change_directory()
-        self.__production()
+        self.__production(nsteps=nsteps)
         self.run_data.save_config('run_config.json')

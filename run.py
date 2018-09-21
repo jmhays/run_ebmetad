@@ -3,7 +3,7 @@
 Example run script for EBMetaD simulations
 """
 
-import run_ebmetad.run_config as rc
+import src.run_ebmetad.run_config as rc
 import sys
 
 sys.path.append('/home/jennifer/Git/sample_restraint/build/src/pythonmodule')

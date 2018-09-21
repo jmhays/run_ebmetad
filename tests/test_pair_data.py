@@ -22,12 +22,12 @@ def test_pair_data(multi_pair_data, raw_pair_data):
 
 
 @pytest.fixture()
-def multi_pair_data(tmpdir, raw_pair_data, data_dir):
+def multi_pair_data(tmpdir, data_dir):
     """
     Tests read/write functionality for MultiPair
     Returns a MultiPair() object for further testing.
     :param tmpdir:
-    :param raw_pair_data:
+    :param data_dir:
     :return:
     """
 

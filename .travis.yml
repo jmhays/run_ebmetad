@@ -62,7 +62,7 @@ install:
   - export CCACHE_DIR=$HOME/.ccache_gromacs
   - ccache -s
   - ./ci_scripts/install_gromacs_0_0_6.sh
-  - if [ "${TRAVIS_BRANCH}" != "master" ] ; then ./ci_scripts/install_gromacs_devel.sh ; fi
+  # - if [ "${TRAVIS_BRANCH}" != "master" ] ; then ./ci_scripts/install_gromacs_devel.sh ; fi
   - pip install codecov
 
 before_script:

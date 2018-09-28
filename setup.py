@@ -1,19 +1,15 @@
 import setuptools
-import os
-
-
-package_dir = os.path.abspath('run_brer')
 
 
 if __name__ == "__main__":
     setuptools.setup(
-        name='ebmetad',
+        name='run_ebmetad',
         version='0.0.1',
         description='Package to run EBMetaD simulations',
         author='Jennifer Hays',
         author_email='jmh5sf@virginia.edu',
         url="https://github.com/jmhays/run_ebmetad",
-        license='BSD 3-Clause "New" or "Revised" License',
+        license='BSD-3-Clause',
         packages=setuptools.find_packages(),
         install_requires=[],
         extras_require={

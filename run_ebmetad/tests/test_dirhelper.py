@@ -1,4 +1,4 @@
-from src.run_ebmetad.directory_helper import DirectoryHelper
+from run_ebmetad.directory_helper import DirectoryHelper
 import os
 
 

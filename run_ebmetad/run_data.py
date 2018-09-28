@@ -3,8 +3,9 @@ Class that handles the simulation data for EBMetaD simulations
 doi: 10.1016/j.bpj.2015.05.024
 """
 
-from src.run_ebmetad.metadata import *
-from src.run_ebmetad.pair_data import PairData
+from run_ebmetad.pair_data import PairData
+from run_ebmetad.metadata import MetaData
+import json
 import numpy as np
 
 

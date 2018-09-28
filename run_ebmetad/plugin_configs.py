@@ -3,7 +3,7 @@ Classes used to build gmxapi plugin for EBMetaD simulations.
 Each class corresponds to ONE restraint since gmxapi plugins each correspond to one restraint.
 """
 
-from src.run_ebmetad.metadata import MetaData
+from run_ebmetad.metadata import MetaData
 from abc import abstractmethod
 import gmx
 

@@ -1,7 +1,7 @@
-from src.run_ebmetad.run_data import RunData
-from src.run_ebmetad.pair_data import MultiPair
-from src.run_ebmetad.plugin_configs import EBMetaDPluginConfig
-from src.run_ebmetad.directory_helper import DirectoryHelper
+from run_ebmetad.run_data import RunData
+from run_ebmetad.pair_data import MultiPair
+from run_ebmetad.plugin_configs import EBMetaDPluginConfig
+from run_ebmetad.directory_helper import DirectoryHelper
 from copy import deepcopy
 import os
 import logging

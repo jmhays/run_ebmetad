@@ -39,7 +39,7 @@ class PairData(MetaData):
             for j in range(nbins):  # Historical distances
                 exponent = -(dists[i] - dists[j])**2 / sigma**2 / 2
                 # add 1.0 to the probability so that we apply standard metadynamics when p_DEER(x) = 0.
-                deer = 1. / (probs[j] + 1)
+                deer = 1. / (probs[j] + 0.1)
                 # The distance better not ever be zero, so hopefully we don't have to worry about this case
                 if 0 not in [dists[i], dists[j]]:
                     force_table[i, j] = pf * deer * (

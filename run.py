@@ -3,10 +3,10 @@
 Example run script for EBMetaD simulations
 """
 
-import src.run_ebmetad.run_config as rc
+import run_ebmetad.run_config as rc
 import sys
 
-sys.path.append('/home/jennifer/Git/sample_restraint/build/src/pythonmodule')
+sys.path.append('/builds/sample_restraint/build/src/pythonmodule')
 
 init = {
     'tpr': '/home/jennifer/Git/run_ebmetad/tests/data/topol.tpr',

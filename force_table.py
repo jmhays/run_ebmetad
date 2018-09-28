@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import src.run_ebmetad.pair_data as pd
+import run_ebmetad.pair_data as pd
 import argparse
 import sys
 import json

@@ -1,5 +1,5 @@
 # run-EBMetaD
-[![Build Status](https://travis-ci.org/jmhays/run_ebmetad.svg?branch=master)](https://travis-ci.org/jmhays/run_ebmetad)
+[![Build Status](https://travis-ci.org/jmhays/run_ebmetad.svg?branch=devel)](https://travis-ci.org/jmhays/run_ebmetad)
 [![codecov](https://codecov.io/gh/jmhays/run_ebmetad/branch/master/graph/badge.svg)](https://codecov.io/gh/jmhays/run_ebmetad)
 [![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1654)
 

@@ -160,7 +160,7 @@ class RunData:
         self.pair_params[name].set('max_dist', max_dist)
 
         # Calculate the force_table
-        self.calculate_force_table()
+        self.pair_params[name].set('force_table', pd.build_force_table(self.get('w', name), self.get('sigma', name)))
 
     def calculate_force_table(self):
         # Calculate the force table

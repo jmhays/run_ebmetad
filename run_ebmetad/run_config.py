@@ -14,11 +14,7 @@ class RunConfig:
     Run configuration for single EBMetaD ensemble member.
     """
 
-    def __init__(self,
-                 tpr,
-                 ensemble_dir,
-                 ensemble_num=1,
-                 pairs_json='pair_data.json'):
+    def __init__(self, tpr, ensemble_dir, ensemble_num=1, pairs_json='pair_data.json'):
         """
         The run configuration specifies the files and directory structure used for the run.
         :param tpr: path to tpr. Must be gmx 2017 compatible.
@@ -65,8 +61,7 @@ class RunConfig:
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
         # create formatter and add it to the handlers
-        formatter = logging.Formatter(
-            '%(asctime)s:%(name)s:%(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s - %(message)s')
         fh.setFormatter(formatter)
         ch.setFormatter(formatter)
         # add the handlers to the logger
@@ -89,8 +84,7 @@ class RunConfig:
             # We assume we've changed into the working directory. Therefore, we can check to see if a historical data
             # file exists. If it does, we read it, if is does not, we initialize a vector of all zero counts.
 
-            hist_data_fnm = self.run_data.get(
-                'historical_data_filename', name=name)
+            hist_data_fnm = self.run_data.get('historical_data_filename', name=name)
             if os.path.exists(hist_data_fnm):
                 distance_counts = np.loadtxt(hist_data_fnm, dtype=int).tolist()
             else:
@@ -99,20 +93,15 @@ class RunConfig:
 
             self.run_data.set(name=name, distance_counts=distance_counts)
 
-            pair_params = self.run_data.as_dictionary()['pair parameters'][
-                name]
+            pair_params = self.run_data.as_dictionary()['pair parameters'][name]
             new_restraint = deepcopy(plugin_config)
-            new_restraint.scan_dictionary(
-                general_params)  # load general data into current restraint
-            new_restraint.scan_dictionary(
-                pair_params)  # load pair-specific data into current restraint
+            new_restraint.scan_dictionary(general_params)  # load general data into current restraint
+            new_restraint.scan_dictionary(pair_params)  # load pair-specific data into current restraint
             self.__plugins.append(new_restraint.build_plugin())
 
     def __change_directory(self):
         # change into the current working directory (ensemble_path/member_path/)
-        dir_help = DirectoryHelper(
-            top_dir=self.ens_dir,
-            ensemble_num=self.run_data.get('ensemble_num'))
+        dir_help = DirectoryHelper(top_dir=self.ens_dir, ensemble_num=self.run_data.get('ensemble_num'))
         dir_help.build_working_dir()
         dir_help.change_dir('ensemble_num')
 
@@ -125,8 +114,7 @@ class RunConfig:
         self.build_plugins(EBMetaDPluginConfig())
         for plugin in self.__plugins:
             md.add_dependency(plugin)
-        context = gmx.context.ParallelArrayContext(
-            md, workdir_list=[os.getcwd()])
+        context = gmx.context.ParallelArrayContext(md, workdir_list=[os.getcwd()])
         with context as session:
             session.run()
 

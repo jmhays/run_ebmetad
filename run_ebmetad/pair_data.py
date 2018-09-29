@@ -51,6 +51,7 @@ class PairData(MetaData):
 class MultiPair(MultiMetaData):
     def __init__(self):
         super().__init__()
+        self.num_pairs = 0
 
     def read_from_json(self, filename='state.json'):
         self._metadata_list = []
@@ -61,6 +62,8 @@ class MultiPair(MultiMetaData):
             metadata_obj = PairData(name=name)
             metadata_obj.set_from_dictionary(metadata)
             self._metadata_list.append(metadata_obj)
+
+        self.num_pairs = len(self._names)
 
 
 

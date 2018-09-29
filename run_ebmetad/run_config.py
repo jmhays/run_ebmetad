@@ -45,7 +45,6 @@ class RunConfig:
         self.run_data.set(ensemble_num=ensemble_num)
         for pd in self.pairs:
             self.run_data.from_pair_data(pd)
-
         self.run_data.save_config('run_config.json')
 
         # List of plugins
@@ -70,12 +69,24 @@ class RunConfig:
 
         self._logger.info("Names of restraints: {}".format(self.__names))
 
+    def __calculate_force_table(self):
+        # TODO: test this properly in pytest.
+        for i in range(self.pairs.num_pairs):
+            pd = self.pairs[i]
+            name = pd.name
+
+            w = self.run_data.get('w', name=name)
+            sigma = self.run_data.get('sigma', name=name)
+            self.run_data.set(name=name, force_table=pd.build_force_table(w, sigma))
+        self.run_data.save_config(fnm='run_config.json')
+
     def build_plugins(self, plugin_config):
         # One plugin per restraint.
         # TODO: what is the expected behavior when a list of plugins exists? Probably wipe them.
 
         self.__plugins = []
         general_params = self.run_data.as_dictionary()['general parameters']
+        self.__calculate_force_table()
 
         # For each pair-wise restraint, populate the plugin with data: both the "general" data and
         # the data unique to that restraint.

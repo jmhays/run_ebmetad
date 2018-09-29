@@ -159,16 +159,6 @@ class RunData:
         self.pair_params[name].set('min_dist', min_dist)
         self.pair_params[name].set('max_dist', max_dist)
 
-        # Calculate the force_table
-        self.pair_params[name].set('force_table', pd.build_force_table(self.get('w', name), self.get('sigma', name)))
-
-    def calculate_force_table(self):
-        # Calculate the force table
-        for name in self.__names:
-            pd = self.pair_params[name]
-            self.pair_params[name].set('force_table', pd.build_force_table(
-                self.get('w', name), self.get('sigma', name)))
-
     def save_config(self, fnm='state.json'):
         json.dump(self.as_dictionary(), open(fnm, 'w'))
 

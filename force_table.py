@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+This code provides a method to perform sensitivity analysis of the Metadynamics parameters 'w' and 'sigma'.
+"""
+
 import run_ebmetad.pair_data as pd
 import argparse
 import sys

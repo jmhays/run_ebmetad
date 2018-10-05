@@ -3,6 +3,10 @@ codecov:
   token: 74fe2a29-2d2d-4668-888a-63e08e757c1e
 
 coverage:
+  ignore:
+    - "setup.py"
+    - "versioneer.py"
+    - "run_ebmetad/tests/*"
   status:
     patch: false
     project:

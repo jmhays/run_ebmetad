@@ -11,6 +11,6 @@ pushd $HOME
    git checkout master
   fi
   $PYTHON setup.py install
-  PYTHONPATH=../sample_restraint/build/src/pythonmodule $PYTHON -m pytest --cov=./
+  PYTHONPATH=../sample_restraint/build/src/pythonmodule $PYTHON -m pytest --cov=./run_ebmetad
  popd
 popd

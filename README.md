@@ -1,7 +1,14 @@
 # run_EBMetaD
+
+[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1654)
+
+master branch status:
 [![Build Status](https://travis-ci.org/jmhays/run_ebmetad.svg?branch=master)](https://travis-ci.org/jmhays/run_ebmetad)
 [![codecov](https://codecov.io/gh/jmhays/run_ebmetad/branch/master/graph/badge.svg)](https://codecov.io/gh/jmhays/run_ebmetad)
-[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1654)
+
+devel branch status:
+[![Build Status](https://travis-ci.org/jmhays/run_ebmetad.svg?branch=master)](https://travis-ci.org/jmhays/run_ebmetad)
+[![codecov](https://codecov.io/gh/jmhays/run_ebmetad/branch/master/graph/badge.svg)](https://codecov.io/gh/jmhays/run_ebmetad)
 
 Set of scripts for running EBMetaD simulations using gmxapi. This respository may be used to run EBMetaD simulations according to the method described in:
 

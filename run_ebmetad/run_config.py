@@ -4,9 +4,18 @@ from run_ebmetad.plugin_configs import EBMetaDPluginConfig
 from run_ebmetad.directory_helper import DirectoryHelper
 from copy import deepcopy
 import os
+import shutil
 import logging
 import gmx
 import numpy as np
+import glob
+
+
+def backup():
+    count_logs = glob.glob('count*.log')
+    if count_logs:
+        for log in count_logs:
+            shutil.copy(log, '{}.bak'.format(log))
 
 
 class RunConfig:
@@ -131,5 +140,6 @@ class RunConfig:
 
     def run(self, nsteps=None):
         self.__change_directory()
+        backup()
         self.__production(nsteps=nsteps)
         self.run_data.save_config('run_config.json')

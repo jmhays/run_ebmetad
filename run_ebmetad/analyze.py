@@ -2,9 +2,15 @@
 Classes to analyze the output of EBMetaD runs.
 """
 
-from run_ebmetad.pair_data import MultiPair, MetaData, MultiMetaData
+from run_ebmetad.pair_data import MetaData, PairData, MultiMetaData, MultiPair
 import json
+from scipy.stats import entropy
 import numpy as np
+
+
+"""
+First, some useful analysis functions.
+"""
 
 
 def gaussian_smoothing(weights, values, sigma=0.2):
@@ -29,7 +35,7 @@ def gaussian_smoothing(weights, values, sigma=0.2):
         raise IndexError('The number of weights ({}) does not equal the number of values ({})'.format(
             num_bins, len(values)))
     hist = [0] * num_bins
-    norm = 1 / (2 * np.pi * sigma**2)
+    norm = 1 / (2 * np.pi * sigma**2 * np.sum(weights))
     for i in range(num_bins):
         for j in range(num_bins):
             arg_exp = -(values[j] - values[i])**2 / (2 * sigma**2)
@@ -38,35 +44,83 @@ def gaussian_smoothing(weights, values, sigma=0.2):
     return hist
 
 
-class SmoothedData(MetaData):
+def js(p, q):
+    """
+    Pairwise Jensen-Shannon Divergence
+    Args:
+        p: first probability distribution
+        q: second probability distribution
+
+    Returns: J-S Divergence of p and q
+
+    """
+
+    # convert to np.array
+    p, q = np.asarray(p), np.asarray(q)
+
+    # normalize p, q to probabilities
+    p, q = p/p.sum(), q/q.sum()
+    m = 1./2*(p + q)
+
+    return entropy(p,m)/2. + entropy(q, m)/2.
+
+
+"""
+Analysis classes specific to EBMetaD data.
+"""
+
+
+class AnalysisData(MetaData):
+    """
+    Handles a single pair
+    """
     def __init__(self, name):
         super().__init__(name)
-        self.set_requirements(['experimental', 'simulation', 'bins'])
+        self.set_requirements(['exp_distribution', 'sim_counts', 'sim_distributions', 'bins', 'js'])
+        self.avg_js = 0
 
-    def get_ensemble_counts(self):
+    def load_exp_data(self, pd: PairData):
+        self.set('exp_distribution', pd.get('distribution'))
+        self.set('bins', pd.get('bins'))
+
+    def load_sim_data(self, md: MetaData, sigma=0.2):
         """
-        Calculates the ensemble simulation distributions for each pair
+        Load simulation metadata. For EBMetaD, this will be the counts of distances observed in simulation.
+        Args:
+            md:
+            sigma:
+
         Returns:
-            total_counts (dict): ensemble simulation distribution data for each pair. Structure is:
-                                {'pair_name': [ensemble distribution], ...}
 
         """
+        sim_distributions = {}
+        bins = self.get('bins')
+        count_data = md.get_as_dictionary()
+        for member_number, counts in count_data.items():
+            sim_distributions[member_number] = gaussian_smoothing(counts, bins, sigma)
+        self.set('sim_distributions', sim_distributions)
 
-        sim_data = self.get('simulation')
-        num_bins = len(self.get('bins'))
+    def do_js(self):
+        js_dict = {}
+        js_total = 0
+        for key, value in self.get('sim_distributions').items():
+            js_dict[key] = js(value, self.get('exp_distribution'))
+            js_total += js_dict[key]
 
-        for pair in list(sim_data.keys()):
-            total_counts[pair] = np.zeros(shape=(num_bins, 1))
-            for data in self.values():
-                total_counts[pair] += data
-        return total_counts
+        self.set('js', js_dict)
+        self.avg_js = js_total/len(js_dict)
 
 
-class SmoothedMultiData(MultiMetaData):
+class MultiPairAnalysis(MultiMetaData):
     def __init__(self):
         super().__init__()
 
-    def load_simulation_data(self, filename):
+    def __create_metadata_from_names(self, names):
+        self.set_names(names)
+        for name in names:
+            self._metadata_list.append(AnalysisData(name=name))
+
+    def load_sim_data(self, filename, sigma=0.2):
         """
         Loads simulation data into dictionary.
         Args:
@@ -81,7 +135,18 @@ class SmoothedMultiData(MultiMetaData):
             simulation (specifically, these files are written by the EBMetaD plugin provided in the sample_restraint
             repository.
         """
-        self.sim = json.load(filename)
+        raw_data = json.load(open(filename))
+
+        # If no experimental data has been loaded yet, must create all the metadata objects here.
+        if not self._metadata_list:
+            self.__create_metadata_from_names(list(raw_data.keys()))
+
+        for name, data in raw_data.items():
+            md = MetaData(name=name)
+            md.set_from_dictionary(data=data)
+
+            id = self.name_to_id(name)
+            self._metadata_list[id].load_sim_data(md, sigma=sigma)
 
     def load_experimental_data(self, filename):
         """
@@ -94,10 +159,17 @@ class SmoothedMultiData(MultiMetaData):
             runs.
         """
 
-        self._exp.read_from_json(filename)
-        self._num_bins = len(self._exp[0].get('bins'))
+        pds = MultiPair()
+        pds.read_from_json(filename)
 
+        if not self._metadata_list:
+            self.__create_metadata_from_names(pds.get_names())
 
+        for pd in pds:
+            id = self.name_to_id(pd.name)
+            self._metadata_list[id].load_exp_data(pd)
 
-
-
+    def js(self):
+        for name in self.get_names():
+            idx = self.name_to_id(name=name)
+            self._metadata_list[idx].do_js()

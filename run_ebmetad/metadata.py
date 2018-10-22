@@ -63,6 +63,10 @@ class MultiMetaData(ABC):
             self._names = [metadata.name for metadata in self._metadata_list]
         return self._names
 
+    def set_names(self, names):
+        for name in names:
+            self._names.append(name)
+
     def name_to_id(self, name):
         if not self._names:
             _ = self.get_names()

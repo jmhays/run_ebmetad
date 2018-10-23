@@ -101,6 +101,7 @@ class AnalysisData(MetaData):
         for member_number, counts in count_data.items():
             sim_distributions[member_number] = gaussian_smoothing(counts, bins, sigma)
             ens_avg += sim_distributions[member_number]
+        ens_avg /= np.sum(ens_avg)
         self.set('sim_distributions', sim_distributions)
         self.set('ensemble_avg_distribution', ens_avg.tolist())
 
@@ -178,3 +179,11 @@ class MultiPairAnalysis(MultiMetaData):
         for name in self.get_names():
             idx = self.name_to_id(name=name)
             self._metadata_list[idx].do_js()
+
+    def get(self, key, name=None):
+        if not name:
+            name = self.get_names()[0]
+            print("Warning: because you did not provide a name, "
+                  "pulling {} from arbitrary pair {}".format(key, name))
+        idx = self.name_to_id(name)
+        return self._metadata_list[idx].get(key)

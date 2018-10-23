@@ -95,10 +95,14 @@ class AnalysisData(MetaData):
         """
         sim_distributions = {}
         bins = self.get('bins')
+        ens_avg = np.zeros(shape=(len(bins)))
+
         count_data = md.get_as_dictionary()
         for member_number, counts in count_data.items():
             sim_distributions[member_number] = gaussian_smoothing(counts, bins, sigma)
+            ens_avg += sim_distributions[member_number]
         self.set('sim_distributions', sim_distributions)
+        self.set('ensemble_avg_distribution', ens_avg.tolist())
 
     def do_js(self):
         js_dict = {}
@@ -126,6 +130,7 @@ class MultiPairAnalysis(MultiMetaData):
         Args:
             filename (str): a json containing simulation data. The structure should be as follows:
                {'pair_name': {'ensemble_num': [list of counts from simulation] ... }}
+            sigma (float): Gaussian smoothing parameter.
 
         Notes:
             - The 'pair name' should be the same as the 'pair_name' from the experimental file.

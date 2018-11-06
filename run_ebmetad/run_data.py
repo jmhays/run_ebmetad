@@ -35,7 +35,7 @@ class GeneralParams(MetaData):
 
     def __init__(self):
         super().__init__('general')
-        self.set_requirements(['w', 'sigma', 'sample_period', 'k', 'ensemble_num'])
+        self.set_requirements(['w', 'sigma', 'uniform', 'sample_period', 'k', 'ensemble_num'])
 
 
 class PairParams(MetaData):
@@ -63,7 +63,14 @@ class RunData:
         and the pair-specific parameters.
         """
         self.general_params = GeneralParams()
-        self.__defaults_general = {'w': 10, 'k': 100, 'sigma': 0.2, 'sample_period': 500, 'ensemble_num': 1}
+        self.__defaults_general = {
+            'w': 10,
+            'k': 100,
+            'sigma': 0.2,
+            'uniform': 0.1,
+            'sample_period': 500,
+            'ensemble_num': 1
+        }
         self.general_params.set_from_dictionary(self.__defaults_general)
         self.pair_params = {}
         self.__names = []

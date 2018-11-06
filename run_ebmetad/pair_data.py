@@ -20,7 +20,7 @@ class PairData(MetaData):
         super().__init__(name=name)
         self.set_requirements(['distribution', 'bins', 'sites'])
 
-    def build_force_table(self, w=10, sigma=0.2):
+    def build_force_table(self, w=10, sigma=0.2, uniform=0.1):
 
         dists = self.get('bins')
         probs = self.get('distribution')
@@ -38,12 +38,10 @@ class PairData(MetaData):
         for i in range(nbins):  # Current distance
             for j in range(nbins):  # Historical distances
                 exponent = -(dists[i] - dists[j])**2 / sigma**2 / 2
-                # add 1.0 to the probability so that we apply standard metadynamics when p_DEER(x) = 0.
-                deer = 1. / (probs[j] + 0.1)
+                deer = 1. / (probs[j] + uniform)
                 # The distance better not ever be zero, so hopefully we don't have to worry about this case
                 if 0 not in [dists[i], dists[j]]:
-                    force_table[i, j] = pf * deer * (
-                        1. - dists[j] / dists[i]) * np.exp(exponent)
+                    force_table[i, j] = pf * deer * (1. - dists[j] / dists[i]) * np.exp(exponent)
 
         return force_table.tolist()
 
@@ -64,6 +62,3 @@ class MultiPair(MultiMetaData):
             self._metadata_list.append(metadata_obj)
 
         self.num_pairs = len(self._names)
-
-
-

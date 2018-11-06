@@ -16,5 +16,5 @@ def test_pair_parameters(run_data):
 
 def test_general_parameters(run_data):
     assert (run_data.general_params.get_requirements() == [
-        'w', 'sigma', 'sample_period', 'k', 'ensemble_num'
+        'w', 'sigma', 'uniform', 'sample_period', 'k', 'ensemble_num'
     ])

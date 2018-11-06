@@ -49,7 +49,12 @@ def rc(tmpdir, data_dir):
         'ensemble_num': 1,
         'pairs_json': '{}/pair_data.json'.format(data_dir)
     }
-    return RunConfig(**init)
+    rc = RunConfig(**init)
+    # Uncomment the following and run a number of tests to determine how "strong"
+    # you can make the DEER restraints. The smaller the uniform distribution that's
+    # added, the more "upweighted" the DEER is relative to standard metadynamics.
+    # rc.run_data.set(uniform=0.0675)
+    return rc
 
 
 @pytest.fixture()

@@ -86,7 +86,8 @@ class RunConfig:
 
             w = self.run_data.get('w', name=name)
             sigma = self.run_data.get('sigma', name=name)
-            self.run_data.set(name=name, force_table=pd.build_force_table(w, sigma))
+            uniform = self.run_data.get('uniform', name=name)
+            self.run_data.set(name=name, force_table=pd.build_force_table(w, sigma, uniform))
         self.run_data.save_config(fnm='run_config.json')
 
     def build_plugins(self, plugin_config):

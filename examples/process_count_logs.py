@@ -36,7 +36,8 @@ def load_sim_data(ensemble_dir, member_nums, pairs):
         for mem_num in member_nums:
             count_file = "{}/mem_{}/counts_{}.log".format(ensemble_dir, mem_num, pair)
             if os.path.exists(count_file):
-                counts = numpy.loadtxt(count_file).tolist()
+                # Subtract one because had started with uniform prior
+                counts = numpy.subtract(numpy.loadtxt(count_file), 1).tolist()
             else:
                 print("WARNING: {} does not exist. This file will be skipped".format(count_file))
             if not counts:

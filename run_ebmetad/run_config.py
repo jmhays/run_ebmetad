@@ -126,9 +126,11 @@ class RunConfig:
         dir_help.build_working_dir()
         dir_help.change_dir('ensemble_num')
 
-    def __production(self, nsteps=None):
+    def __production(self, nsteps=None, end_time=None):
         if nsteps:
             md = gmx.workflow.from_tpr(self.tpr, append_output=False, nsteps=nsteps)
+        elif end_time:
+            md = gmx.workflow.from_tpr(self.tpr, append_output=False, end_time=end_time)
         else:
             md = gmx.workflow.from_tpr(self.tpr, append_output=False)
 
@@ -139,8 +141,8 @@ class RunConfig:
         with context as session:
             session.run()
 
-    def run(self, nsteps=None):
+    def run(self, nsteps=None, end_time=None):
         self.__change_directory()
         backup()
-        self.__production(nsteps=nsteps)
+        self.__production(nsteps=nsteps, end_time=end_time)
         self.run_data.save_config('run_config.json')

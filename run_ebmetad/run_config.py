@@ -128,11 +128,11 @@ class RunConfig:
 
     def __production(self, nsteps=None, end_time=None):
         if nsteps:
-            md = gmx.workflow.from_tpr(self.tpr, append_output=False, nsteps=nsteps)
+            md = gmx.workflow.from_tpr(self.tpr, nsteps=nsteps)
         elif end_time:
-            md = gmx.workflow.from_tpr(self.tpr, append_output=False, end_time=end_time)
+            md = gmx.workflow.from_tpr(self.tpr, end_time=end_time)
         else:
-            md = gmx.workflow.from_tpr(self.tpr, append_output=False)
+            md = gmx.workflow.from_tpr(self.tpr)
 
         self.build_plugins(EBMetaDPluginConfig())
         for plugin in self.__plugins:
